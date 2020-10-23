@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // import { RECEIVE_DECKS } from "../redux/actionTypes";
 import CustomButton from "../components/CustomButton";
 import PageHeading from "../components/PageHeading";
-import { BUTTON_PRIMARY } from "../utils/constants";
+import { BUTTON_PRIMARY_COLOR, CARD_BORDER } from "../res/colors";
 import { getDecks } from "../redux/selectors";
 
 // navigation.navigate("DeckView", {
@@ -23,7 +23,7 @@ class DeckList extends Component {
   renderDeck = ({ item }) => {
     return (
       <View style={styles.deck}>
-        <View style={styles.deckText}>
+        <View>
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate("DeckView", {
@@ -31,58 +31,11 @@ class DeckList extends Component {
               });
             }}
           >
-            <Text>{item.title}</Text>
+            <Text style={styles.deckText}>{item.title}</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.numOfCards}>
-          <Text>{item.numOfCards}</Text>
-        </View>
-        <View style={styles.quiz}>
-          <TouchableOpacity>
-            <Text>?</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
-
-  // renderDeck = ({ item }) => {
-  //   return (
-  //     <View style={styles.deck}>
-  //       <View style={styles.deckText}>
-  //         <TouchableOpacity
-  //           onPress={() => {
-  //             this.props.navigation.navigate("DeckView", {
-  //               id: item.id,
-  //             });
-  //           }}
-  //         >
-  //           <Text>{item.title}</Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //       <View style={styles.numOfCards}>
-  //         <Text>{item.numOfCards}</Text>
-  //       </View>
-  //       <View style={styles.quiz}>
-  //         <TouchableOpacity>
-  //           <Text>?</Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //     </View>
-  //   );
-  // };
-
-  renderDeckListHeader = () => {
-    return (
-      <View style={styles.deckHeaderContainer}>
-        <View style={styles.deckText}>
-          <Text style={styles.deckHeaderText}>Title</Text>
-        </View>
-        <View style={styles.numOfCards}>
-          <Text style={styles.deckHeaderText}>#</Text>
-        </View>
-        <View style={styles.quiz}>
-          <Text style={styles.deckHeaderText}>Quiz</Text>
+          <Text>{item.numOfCards} cards</Text>
         </View>
       </View>
     );
@@ -90,6 +43,7 @@ class DeckList extends Component {
 
   render() {
     const { navigation, decks } = this.props;
+    console.log("DeckList BUTTON_PRIMARY_COLOR: ", BUTTON_PRIMARY_COLOR);
 
     return (
       <SafeAreaView>
@@ -99,12 +53,11 @@ class DeckList extends Component {
           renderItem={this.renderDeck}
           keyExtractor={(deck) => deck.id.toString()}
           numColumns={1}
-          ListHeaderComponent={this.renderDeckListHeader}
         />
         <CustomButton
           title="Add Deck"
-          buttonType={BUTTON_PRIMARY}
           onPress={() => navigation.navigate("DeckAdd")}
+          buttonColor={BUTTON_PRIMARY_COLOR}
         />
       </SafeAreaView>
     );
@@ -114,8 +67,19 @@ class DeckList extends Component {
 const styles = StyleSheet.create({
   deck: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 5,
     paddingBottom: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
+
+    marginTop: 5,
+    marginBottom: 5,
+    borderColor: CARD_BORDER,
+    borderRadius: 5,
+    borderWidth: 2,
   },
   deckHeaderContainer: {
     display: "flex",
@@ -126,10 +90,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   deckText: {
-    width: 320,
+    fontSize: 32,
   },
   numOfCards: {
-    width: 40,
+    fontSize: 20,
   },
   quiz: {
     width: 30,

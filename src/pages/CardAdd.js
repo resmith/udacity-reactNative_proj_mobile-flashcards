@@ -6,7 +6,7 @@ import { addCard } from "../redux/actions";
 import { convertTitleToKey } from "../utils/helpers";
 import CustomButton from "../components/CustomButton";
 import InputLabel from "../components/InputLabel";
-import { PRIMARY_BUTTON, SECONDARY_BUTTON } from "../utils/constants";
+import { BUTTON_PRIMARY_COLOR, BUTTON_SECONDARY_COLOR } from "../res/colors";
 
 class CardAdd extends Component {
   constructor(props) {
@@ -50,7 +50,7 @@ class CardAdd extends Component {
         <CustomButton
           title="Submit"
           onPress={this.submit}
-          buttonType={PRIMARY_BUTTON}
+          buttonColor={BUTTON_PRIMARY_COLOR}
         />
       </View>
     );

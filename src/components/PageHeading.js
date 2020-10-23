@@ -12,15 +12,15 @@ function PageHeading({ title }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
   },
   text: {
-    marginLeft: 20,
     marginTop: 15,
-    marginBottom: 2,
+    marginBottom: 5,
     fontWeight: "700",
-    fontSize: 16,
+    fontSize: 18,
+    textAlign: "center",
   },
 });
 

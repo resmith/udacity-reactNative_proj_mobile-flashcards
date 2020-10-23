@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { addDeck } from "../redux/actions";
 import CustomButton from "../components/CustomButton";
 import InputLabel from "../components/InputLabel";
-import { PRIMARY_BUTTON, SECONDARY_BUTTON } from "../utils/constants";
+import { BUTTON_PRIMARY_COLOR } from "../res/colors";
 
 class DeckAdd extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class DeckAdd extends Component {
     // Write to API submitEntry({ key, entry });
     this.setState(() => ({ input: "" }));
 
-    // this.props.navigation.navigate("Home");
+    this.props.navigation.goBack();
 
     // Clear local notification
   };
@@ -39,7 +39,7 @@ class DeckAdd extends Component {
         <CustomButton
           title="Submit"
           onPress={this.submit}
-          buttonType={PRIMARY_BUTTON}
+          buttonColor={BUTTON_PRIMARY_COLOR}
         />
       </View>
     );
@@ -56,10 +56,8 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps({ navigation }) {
-  return {
-    navigation,
-  };
+function mapStateToProps(state) {
+  return {};
 }
 
 export default connect(mapStateToProps, { addDeck })(DeckAdd);
