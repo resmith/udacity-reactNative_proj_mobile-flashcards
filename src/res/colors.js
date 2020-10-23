@@ -1,6 +1,6 @@
-export const PRIMARY_COLOR = "#96C7F2";
+export const PRIMARY_COLOR = "#679BDA";
 export const SECONDARY_COLOR = "#90D6E8";
-export const BUTTON_PRIMARY_COLOR = "#96C7F2E8";
+export const BUTTON_PRIMARY_COLOR = "#679BDA";
 export const BUTTON_SECONDARY_COLOR = "#90D6E8";
 export const BUTTON_PRIMARY_TEXT_COLOR = "#E6E8E8";
 export const BUTTON_SECONDARY_TEXT_COLOR = "#E6E8E8";

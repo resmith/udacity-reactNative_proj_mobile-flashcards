@@ -2,34 +2,20 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { connect } from "react-redux";
 
-import { addDeck } from "../actions";
-import { convertTitleToKey } from "../utils/helpers";
+import { addDeck } from "../redux/actions";
 import CustomButton from "../components/CustomButton";
 import InputLabel from "../components/InputLabel";
 import { PRIMARY_BUTTON, SECONDARY_BUTTON } from "../utils/constants";
 
 class DeckAdd extends Component {
-  state = {
-    input: "",
-  };
+  constructor(props) {
+    super(props);
+    this.state = { input: "" };
+  }
 
   submit = () => {
-    console.log("Submit started");
-    input = this.state.input;
-    const key = convertTitleToKey(input);
-    const data = {
-      title: input,
-      NumCards: 0,
-    };
-    console.log("input ", input);
-    console.log("key ", key);
-    console.log("data ", data);
-
-    this.props.dispatch(
-      addDeck({
-        [key]: data,
-      })
-    );
+    this.props.addDeck(this.state.input);
+    this.setState({ input: "" });
 
     // Write to API submitEntry({ key, entry });
     this.setState(() => ({ input: "" }));
@@ -48,18 +34,13 @@ class DeckAdd extends Component {
         <TextInput
           style={styles.TextInput}
           onChangeText={(text) => this.setState(() => ({ input: text }))}
+          value={this.state.input}
         />
         <CustomButton
           title="Submit"
           onPress={this.submit}
           buttonType={PRIMARY_BUTTON}
         />
-        <CustomButton
-          title="Go Home"
-          onPress={() => navigation.navigate("Home")}
-          buttonType={SECONDARY_BUTTON}
-        />
-        <Text>{this.state.input}</Text>
       </View>
     );
   }
@@ -81,4 +62,4 @@ function mapStateToProps({ navigation }) {
   };
 }
 
-export default connect(mapStateToProps)(DeckAdd);
+export default connect(mapStateToProps, { addDeck })(DeckAdd);

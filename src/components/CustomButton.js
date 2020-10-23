@@ -5,13 +5,12 @@ import {
   BUTTON_SECONDARY_COLOR,
   BUTTON_PRIMARY_TEXT_COLOR,
   BUTTON_SECONDARY_TEXT_COLOR,
-} from "../utils/styles";
+} from "../res/colors";
 import { PRIMARY_BUTTON } from "../utils/constants";
 
 class CustomButton extends Component {
   render() {
     const { title, onPress, buttonType } = this.props;
-    console.log("props.buttonType: ", buttonType);
     let myStyleSheet = StyleSheetWithProps(buttonType);
 
     return (
@@ -32,13 +31,10 @@ class CustomButton extends Component {
 }
 
 function StyleSheetWithProps(buttonType) {
-  console.log("buttonType: ", buttonType);
   backgroundColor =
     buttonType && buttonType === PRIMARY_BUTTON
       ? BUTTON_PRIMARY_COLOR
       : BUTTON_SECONDARY_COLOR;
-
-  console.log("backgroundColor: ", backgroundColor);
 
   return StyleSheet.create({
     container: {
@@ -52,7 +48,7 @@ function StyleSheetWithProps(buttonType) {
       color: BUTTON_PRIMARY_TEXT_COLOR,
     },
     iosSubmitBtn: {
-      backgroundColor: "#292477",
+      backgroundColor: backgroundColor,
       padding: 10,
       borderRadius: 7,
       height: 45,
@@ -60,7 +56,7 @@ function StyleSheetWithProps(buttonType) {
       marginRight: 40,
     },
     AndroidSubmitBtn: {
-      backgroundColor: "#292477",
+      backgroundColor: backgroundColor,
       padding: 10,
       paddingLeft: 30,
       paddingRight: 30,
