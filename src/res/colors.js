@@ -1,7 +1,8 @@
 export const PRIMARY_COLOR = "#679BDA";
 export const SECONDARY_COLOR = "#90D6E8";
 export const BUTTON_PRIMARY_COLOR = "#679BDA";
-export const BUTTON_SECONDARY_COLOR = "#90D6E8";
+export const BUTTON_SECONDARY_COLOR = "#4BCCEC";
+export const BUTTON_DISABLED_COLOR = "#C4C4BE";
 export const BUTTON_PRIMARY_TEXT_COLOR = "#E6E8E8";
 export const BUTTON_SECONDARY_TEXT_COLOR = "#E6E8E8";
 export const BUTTON_ANSWER_CORRECT = "#4DF020";

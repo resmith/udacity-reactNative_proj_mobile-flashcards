@@ -8,7 +8,6 @@ const initialState = {
 // Note: RECEIVE_DECKS - Replaced with selectors - per Redux page code
 
 function cards(state = initialState, action) {
-  console.log(action);
   const id =
     action.payload && action.payload.cardId ? action.payload.cardId : 0;
   switch (action.type) {

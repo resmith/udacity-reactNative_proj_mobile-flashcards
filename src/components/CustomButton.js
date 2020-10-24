@@ -1,30 +1,25 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import {
-  BUTTON_PRIMARY_COLOR,
-  BUTTON_SECONDARY_COLOR,
-  BUTTON_PRIMARY_TEXT_COLOR,
-  BUTTON_SECONDARY_TEXT_COLOR,
-} from "../res/colors";
-import { PRIMARY_BUTTON } from "../utils/constants";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { BUTTON_PRIMARY_TEXT_COLOR } from "../res/colors";
 
 class CustomButton extends Component {
   render() {
-    const { title, onPress, buttonColor } = this.props;
+    const { title, onPress, buttonColor, disabled } = this.props;
     let myStyleSheet = StyleSheetWithProps(buttonColor);
 
     return (
       <View style={myStyleSheet.container}>
-        <TouchableOpacity
+        <Pressable
           onPress={onPress}
           style={
             Platform.OS === "ios"
               ? myStyleSheet.iosSubmitBtn
               : myStyleSheet.AndroidSubmitBtn
           }
+          disabled={disabled ? disabled : false}
         >
           <Text style={myStyleSheet.text}>{title}</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     );
   }

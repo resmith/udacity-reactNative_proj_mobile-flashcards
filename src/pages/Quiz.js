@@ -7,13 +7,14 @@ import { answerQuiz, resetQuiz } from "../redux/actions";
 import { getDeckById, getCardByDeckId } from "../redux/selectors";
 
 import CustomButton from "../components/CustomButton";
+import CustomCard from "../components/CustomCard";
 import PageHeading from "../components/PageHeading";
 import {
   BUTTON_PRIMARY_COLOR,
   BUTTON_SECONDARY_COLOR,
   BUTTON_ANSWER_CORRECT,
   BUTTON_ANSWER_INCORRECT,
-  CARD_BORDER,
+  BUTTON_DISABLED_COLOR,
 } from "../res/colors";
 
 class Quiz extends Component {
@@ -23,92 +24,97 @@ class Quiz extends Component {
   }
   render() {
     const { deck, cards } = this.props;
-    console.log("Quiz deck: ", deck);
-    console.log("Quiz cards: ", cards);
-
+    const cardsLeft = deck.numOfCards - deck.questionsAnswered;
     return (
       <View>
         <PageHeading title="Quiz" />
-        <Text>{cards[deck.indexCurrentQuestion].question}</Text>
+        <CustomCard>
+          <Text>{cards[deck.indexCurrentQuestion].question}</Text>
+        </CustomCard>
         {this.state.displayAnswer === true ? (
-          <Text>{cards[deck.indexCurrentQuestion].answer}</Text>
+          <CustomCard>
+            <Text>{cards[deck.indexCurrentQuestion].answer}</Text>
+          </CustomCard>
         ) : null}
-        <Text>Cards Left: {deck.numOfCards - deck.questionsAnswered}</Text>
-        <Text>
-          % correct: {deck.questionsAnsweredCorrectly / deck.numOfCards}
-        </Text>
+        <CustomCard>
+          <View style={styles.spreadRow}>
+            <Text>Cards Left: {cardsLeft}</Text>
+            <Text>
+              Correct:{" "}
+              {(deck.questionsAnsweredCorrectly / deck.numOfCards) * 100}%
+            </Text>
+          </View>
+        </CustomCard>
 
         <CustomButton
-          title="View Answer"
+          title={this.state.displayAnswer ? "Hide Answer" : "Show Answer"}
           onPress={() => {
             this.setState({ displayAnswer: !this.state.displayAnswer });
           }}
           buttonColor={BUTTON_PRIMARY_COLOR}
         />
-        <CustomButton
-          title="Correct"
-          onPress={() => {
-            this.props.dispatch(
-              answerQuiz({ deckId: deck.id, questionAnsweredCorrectly: 1 })
-            );
-          }}
-          buttonColor={BUTTON_ANSWER_CORRECT}
-        />
-        <CustomButton
-          title="Incorrect"
-          onPress={() => {
-            this.props.dispatch(
-              answerQuiz({ deckId: deck.id, questionAnsweredCorrectly: 0 })
-            );
-          }}
-          buttonColor={BUTTON_ANSWER_INCORRECT}
-        />
-        <CustomButton
-          title="Reset Quiz"
-          onPress={() => {
-            this.props.dispatch(resetQuiz({ deckId: deck.id }));
-          }}
-          buttonColor={BUTTON_ANSWER_INCORRECT}
-        />
+
+        <CustomCard>
+          <View style={styles.spreadRow}>
+            <CustomButton
+              title="Correct"
+              onPress={() => {
+                this.props.dispatch(
+                  answerQuiz({ deckId: deck.id, questionAnsweredCorrectly: 1 })
+                );
+              }}
+              buttonColor={
+                cardsLeft !== 0 ? BUTTON_ANSWER_CORRECT : BUTTON_DISABLED_COLOR
+              }
+              disabled={cardsLeft === 0}
+            />
+            <CustomButton
+              title="Incorrect"
+              onPress={() => {
+                this.props.dispatch(
+                  answerQuiz({ deckId: deck.id, questionAnsweredCorrectly: 0 })
+                );
+              }}
+              buttonColor={
+                cardsLeft !== 0
+                  ? BUTTON_ANSWER_INCORRECT
+                  : BUTTON_DISABLED_COLOR
+              }
+              disabled={cardsLeft === 0}
+            />
+          </View>
+        </CustomCard>
+
+        <CustomCard>
+          <View style={styles.spreadRow}>
+            <CustomButton
+              title="Reset Quiz"
+              onPress={() => {
+                this.props.dispatch(resetQuiz({ deckId: deck.id }));
+              }}
+              buttonColor={BUTTON_SECONDARY_COLOR}
+            />
+            <CustomButton
+              title="Back To Deck"
+              onPress={() => {
+                this.props.navigation.navigate("DeckView", {
+                  id: deck.id,
+                });
+              }}
+              buttonColor={BUTTON_SECONDARY_COLOR}
+            />
+          </View>
+        </CustomCard>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  deck: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
-
-    marginTop: 5,
-    marginBottom: 5,
-    borderColor: CARD_BORDER,
-    borderRadius: 5,
-    borderWidth: 2,
-  },
-  deckHeaderContainer: {
-    display: "flex",
+  spreadRow: {
     flexDirection: "row",
-  },
-  deckHeaderText: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  deckText: {
-    fontSize: 32,
-  },
-  numOfCards: {
-    fontSize: 20,
-  },
-  quiz: {
-    width: 30,
-    alignItems: "flex-end",
+    justifyContent: "space-between",
+    alignContent: "space-between",
   },
 });
 

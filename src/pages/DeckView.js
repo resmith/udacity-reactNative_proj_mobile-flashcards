@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
 function mapStateToProps(state, { route }) {
   const { id } = route.params;
   const deck = getDeckById(state, id);
-  console.log("DeckView deck: ", deck);
   return {
     deck,
   };

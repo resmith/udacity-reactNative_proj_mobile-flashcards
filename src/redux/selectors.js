@@ -25,7 +25,6 @@ export const getCards = (store) =>
 
 export const getCardByDeckId = (store, id) => {
   const cards = getCards(store);
-  console.log("getCardByDeckId cards ", cards);
   return cards.filter((card) => card.deckId === id);
 };
 

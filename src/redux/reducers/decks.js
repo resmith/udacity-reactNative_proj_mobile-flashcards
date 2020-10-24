@@ -8,10 +8,9 @@ const initialState = {
 // NOTE: RECEIVE_DECKS - Replaced with selectors - per Redux page code
 
 function decks(state = initialState, action) {
-  console.log(action);
   const id =
     action.payload && action.payload.deckId ? action.payload.deckId : 0;
-  console.log("reducers decks id: ", id);
+
   switch (action.type) {
     case ADD_DECK:
       const { title } = action.payload;
