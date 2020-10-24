@@ -1,9 +1,9 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
 
 import store from "./src/redux/store";
@@ -12,8 +12,19 @@ import DeckList from "./src/pages/DeckList";
 import DeckAdd from "./src/pages/DeckAdd";
 import DeckView from "./src/pages/DeckView";
 import CardAdd from "./src/pages/CardAdd";
+import Quiz from "./src/pages/Quiz";
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function Home() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="DeckList" component={DeckList} />
+      <Tab.Screen name="DeckAdd" component={DeckAdd} />
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
   return (
@@ -21,7 +32,12 @@ export default function App() {
       <SafeAreaProvider style={styles.app}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Home" component={DeckList} />
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen
+              name="DeckList"
+              component={DeckList}
+              options={{ title: "Decks" }}
+            />
             <Stack.Screen
               name="DeckAdd"
               component={DeckAdd}
@@ -36,6 +52,11 @@ export default function App() {
               name="CardAdd"
               component={CardAdd}
               options={{ title: "Add  Card" }}
+            />
+            <Stack.Screen
+              name="Quiz"
+              component={Quiz}
+              options={{ title: "Quiz" }}
             />
           </Stack.Navigator>
         </NavigationContainer>

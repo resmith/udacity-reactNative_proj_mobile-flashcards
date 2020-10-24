@@ -1,19 +1,24 @@
 import { ADD_CARD } from "../actionTypes";
 
 const initialState = {
-  byId: {},
+  allIds: [],
+  byIds: {},
 };
+
+// Note: RECEIVE_DECKS - Replaced with selectors - per Redux page code
 
 function cards(state = initialState, action) {
   console.log(action);
+  const id =
+    action.payload && action.payload.cardId ? action.payload.cardId : 0;
   switch (action.type) {
-    // RECEIVE_DECKS - Replaced with selectors - per Redux page code
     case ADD_CARD:
-      const { id, deckId, question, answer } = action.payload;
+      const { deckId, question, answer } = action.payload;
       return {
         ...state,
-        byId: {
-          ...state.byId,
+        allIds: [...state.allIds, id],
+        byIds: {
+          ...state.byIds,
           [id]: {
             id,
             deckId,

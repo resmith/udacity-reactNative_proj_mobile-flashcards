@@ -6,6 +6,8 @@ Mobile FlashCards
 
 ## Install / Run Process
 
+You'll need a mobile emulator. For Android, that's either Android Studio or GenyMotion. I've used both and prefer GenyMotion, but it's about \$150/year for a personal license.
+
 ## Technology Used
 
 [React Redux](https://react-redux.js.org/)

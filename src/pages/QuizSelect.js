@@ -2,34 +2,42 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import { connect } from "react-redux";
-import { getDeckById } from "../redux/selectors";
+// import { getDeckById, getCardByDeckId } from "../redux/selectors";
+
+import {
+  getDeckById,
+  getCardsState,
+  getCardList,
+  getCardById,
+  getCards,
+  getCardByDeckId,
+} from "../redux/selectors";
 
 import CustomButton from "../components/CustomButton";
 import PageHeading from "../components/PageHeading";
 import {
   BUTTON_PRIMARY_COLOR,
   BUTTON_SECONDARY_COLOR,
+  BUTTON_ANSWER_CORRECT,
+  BUTTON_ANSWER_INCORRECT,
   CARD_BORDER,
 } from "../res/colors";
 
-class DeckView extends Component {
+class Quiz extends Component {
   render() {
-    const { deck } = this.props;
+    const { deck, cards } = this.props;
+    console.log("Quiz deck: ", deck);
+    console.log("Quiz cards: ", cards);
 
     return (
       <View>
-        <PageHeading>{deck.title}</PageHeading>
-        <View style={styles.deck}>
-          <View>
-            <Text style={styles.deckText}>{deck.title}</Text>
-          </View>
-          <View style={styles.numOfCards}>
-            <Text>{deck.numOfCards} cards</Text>
-          </View>
-        </View>
+        <PageHeading title="Quiz" />
+        <Text>--> Display Card/Question</Text>
+        <Text>--> # of Cards Left</Text>
+        <Text>--> % correct</Text>
 
         <CustomButton
-          title="Add Card"
+          title="Answer"
           onPress={() => {
             this.props.navigation.navigate("CardAdd", {
               id: deck.id,
@@ -38,13 +46,22 @@ class DeckView extends Component {
           buttonColor={BUTTON_PRIMARY_COLOR}
         />
         <CustomButton
-          title="Start Quiz"
+          title="Correct"
           onPress={() => {
             this.props.navigation.navigate("Quiz", {
-              deckId: deck.id,
+              id: deck.id,
             });
           }}
-          buttonColor={BUTTON_SECONDARY_COLOR}
+          buttonColor={BUTTON_ANSWER_CORRECT}
+        />
+        <CustomButton
+          title="Incorrect"
+          onPress={() => {
+            this.props.navigation.navigate("Quiz", {
+              id: deck.id,
+            });
+          }}
+          buttonColor={BUTTON_ANSWER_INCORRECT}
         />
       </View>
     );
@@ -91,9 +108,10 @@ const styles = StyleSheet.create({
 function mapStateToProps(state, { route }) {
   const { id } = route.params;
   const deck = getDeckById(state, id);
-  console.log("DeckView deck: ", deck);
+  const cards = getCardByDeckId(state, id);
   return {
     deck,
+    cards,
   };
 
   //  return {
@@ -122,4 +140,4 @@ function mapStateToProps(state, { route }) {
 //   };
 // }
 
-export default connect(mapStateToProps)(DeckView);
+export default connect(mapStateToProps)(Quiz);

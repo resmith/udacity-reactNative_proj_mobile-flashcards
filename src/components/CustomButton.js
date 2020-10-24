@@ -11,7 +11,6 @@ import { PRIMARY_BUTTON } from "../utils/constants";
 class CustomButton extends Component {
   render() {
     const { title, onPress, buttonColor } = this.props;
-    console.log("CustomButton buttonColor: ", buttonColor);
     let myStyleSheet = StyleSheetWithProps(buttonColor);
 
     return (
@@ -32,7 +31,6 @@ class CustomButton extends Component {
 }
 
 function StyleSheetWithProps(buttonColor) {
-  console.log("StyleSheetWithProps buttonColor: ", buttonColor);
   return StyleSheet.create({
     container: {
       flexDirection: "row",
@@ -47,7 +45,7 @@ function StyleSheetWithProps(buttonColor) {
     iosSubmitBtn: {
       backgroundColor: buttonColor,
       padding: 10,
-      borderRadius: 7,
+      borderRadius: 5,
       height: 45,
       marginLeft: 40,
       marginRight: 40,
@@ -58,7 +56,7 @@ function StyleSheetWithProps(buttonColor) {
       paddingLeft: 30,
       paddingRight: 30,
       height: 45,
-      borderRadius: 2,
+      borderRadius: 5,
       alignSelf: "flex-end",
       justifyContent: "center",
       alignItems: "center",

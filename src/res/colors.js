@@ -4,4 +4,6 @@ export const BUTTON_PRIMARY_COLOR = "#679BDA";
 export const BUTTON_SECONDARY_COLOR = "#90D6E8";
 export const BUTTON_PRIMARY_TEXT_COLOR = "#E6E8E8";
 export const BUTTON_SECONDARY_TEXT_COLOR = "#E6E8E8";
+export const BUTTON_ANSWER_CORRECT = "#4DF020";
+export const BUTTON_ANSWER_INCORRECT = "#DB1004";
 export const CARD_BORDER = "#D9DCD7";
