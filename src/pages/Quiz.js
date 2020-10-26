@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { answerQuiz, resetQuiz } from "../redux/actions";
 
-import { getDeckById, getCardByDeckId } from "../redux/selectors";
+import { getDeckById } from "../redux/selectors";
 
 import CustomButton from "../components/CustomButton";
 import CustomCard from "../components/CustomCard";
@@ -23,17 +23,17 @@ class Quiz extends Component {
     this.state = { displayAnswer: false };
   }
   render() {
-    const { deck, cards } = this.props;
+    const { deck } = this.props;
     const cardsLeft = deck.numOfCards - deck.questionsAnswered;
     return (
       <View>
         <PageHeading title="Quiz" />
         <CustomCard>
-          <Text>{cards[deck.indexCurrentQuestion].question}</Text>
+          <Text>{deck.questions[deck.indexCurrentQuestion].question}</Text>
         </CustomCard>
         {this.state.displayAnswer === true ? (
           <CustomCard>
-            <Text>{cards[deck.indexCurrentQuestion].answer}</Text>
+            <Text>{deck.questions[deck.indexCurrentQuestion].answer}</Text>
           </CustomCard>
         ) : null}
         <CustomCard>
@@ -121,10 +121,8 @@ const styles = StyleSheet.create({
 function mapStateToProps(state, { route }) {
   const { deckId } = route.params;
   const deck = getDeckById(state, deckId);
-  const cards = getCardByDeckId(state, deckId);
   return {
     deck,
-    cards,
   };
 
   //  return {

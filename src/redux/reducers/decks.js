@@ -25,10 +25,12 @@ function decks(state = initialState, action) {
             indexCurrentQuestion: 0,
             questionsAnswered: 0,
             questionsAnsweredCorrectly: 0,
+            questions: [],
           },
         },
       };
     case ADD_CARD:
+      const { question, answer } = action.payload;
       return {
         ...state,
         byIds: {
@@ -36,6 +38,7 @@ function decks(state = initialState, action) {
           [id]: {
             ...state.byIds[id],
             numOfCards: ++state.byIds[id].numOfCards,
+            questions: [...state.byIds[id].questions, { question, answer }],
           },
         },
       };
