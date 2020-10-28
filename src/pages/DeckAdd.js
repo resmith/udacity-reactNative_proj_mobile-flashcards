@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { connect } from "react-redux";
 
-import { addDeck } from "../redux/actions";
+import { handleAddDeck, addDeck } from "../redux/actions";
 import CustomButton from "../components/CustomButton";
 import InputLabel from "../components/InputLabel";
 import { BUTTON_PRIMARY_COLOR } from "../res/colors";
@@ -14,15 +14,12 @@ class DeckAdd extends Component {
   }
 
   submit = () => {
-    this.props.addDeck(this.state.input);
-    this.setState({ input: "" });
+    this.props.handleAddDeck(this.state.input);
 
-    // Write to API submitEntry({ key, entry });
-    this.setState(() => ({ input: "" }));
+    this.setState({ input: "" });
+    // this.setState(() => ({ input: "" }));
 
     this.props.navigation.goBack();
-
-    // Clear local notification
   };
 
   render() {
@@ -60,4 +57,4 @@ function mapStateToProps(state) {
   return {};
 }
 
-export default connect(mapStateToProps, { addDeck })(DeckAdd);
+export default connect(mapStateToProps, { handleAddDeck })(DeckAdd);

@@ -1,23 +1,41 @@
-import { ADD_DECK, ADD_CARD, ANSWER_QUIZ, RESET_QUIZ } from "./actionTypes";
+import {
+  ADD_DECK,
+  REMOVE_DECK,
+  ADD_CARD,
+  ANSWER_QUIZ,
+  RESET_QUIZ,
+  RECEIVE_DECKS,
+} from "./actionTypes";
+import { convertTitleToKey } from "../utils/helpers";
+import { getDecks, saveDeckTitle } from "../utils/api";
 
-let nextDeckId = 0;
-let nextCardId = 0;
-let nextQuizId = 0;
+function addDeck(title) {
+  const deckId = convertTitleToKey(title);
+  return {
+    type: ADD_DECK,
+    payload: {
+      deckId,
+      title,
+      numOfCards: 0,
+    },
+  };
+}
 
-export const addDeck = (title) => ({
-  type: ADD_DECK,
-  payload: {
-    deckId: ++nextDeckId,
-    title: title,
-    numOfCards: 0,
-  },
-});
+export function handleAddDeck(title) {
+  return (dispatch) => {
+    dispatch(addDeck(title));
+
+    // return saveDeckTitle(title).catch(() => {
+    //   dispatch(REMOVE_DECK(title));
+    //   alert("Error on saving Deck. Please try again");
+    // });
+  };
+}
 
 export const addCard = ({ deckId, question, answer }) => ({
   type: ADD_CARD,
   payload: {
     deckId,
-    cardId: ++nextCardId,
     question,
     answer,
   },
@@ -37,3 +55,18 @@ export const resetQuiz = ({ deckId }) => ({
     deckId: deckId,
   },
 });
+
+export function receiveDecks(decks) {
+  return {
+    type: RECEIVE_DECKS,
+    decks: decks,
+  };
+}
+
+export function handleGetDecks() {
+  return (dispatch) => {
+    return getDecks().then(({ decks }) => {
+      dispatch(receiveDecks(decks));
+    });
+  };
+}

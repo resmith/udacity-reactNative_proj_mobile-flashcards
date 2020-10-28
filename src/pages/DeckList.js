@@ -7,13 +7,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import CustomButton from "../components/CustomButton";
 import PageHeading from "../components/PageHeading";
-import { BUTTON_PRIMARY_COLOR, CARD_BORDER } from "../res/colors";
-import { getDecks } from "../redux/selectors";
+import { CARD_BORDER } from "../res/colors";
+// import { getDecks } from "../redux/selectors";
+import { handleGetDecks } from "../redux/actions";
 import DeckAdd from "./DeckAdd";
 
 // navigation.navigate("DeckView", {
@@ -35,6 +34,10 @@ function DeckListBottomTabs() {
 }
 
 class DeckList extends Component {
+  // componentDidMount() {
+  //   this.props.dispatch(handleInitialData());
+  // }
+
   renderDeck = ({ item }) => {
     return (
       <TouchableOpacity
@@ -57,6 +60,7 @@ class DeckList extends Component {
   };
 
   render() {
+    console.log("DeckList this.props: ", this.props);
     const { navigation, decks } = this.props;
 
     return (
@@ -118,7 +122,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const decks = getDecks(state);
+  console.log("DeckList handleGetDecks(state): ", handleGetDecks(state));
+  const decks = handleGetDecks(state);
   return { decks };
 };
 
