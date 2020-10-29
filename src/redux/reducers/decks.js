@@ -1,4 +1,10 @@
-import { ADD_DECK, ADD_CARD, ANSWER_QUIZ, RESET_QUIZ } from "../actionTypes";
+import {
+  RECEIVE_DECKS,
+  ADD_DECK,
+  ADD_CARD,
+  ANSWER_QUIZ,
+  RESET_QUIZ,
+} from "../actionTypes";
 
 const initialState = {
   allIds: [],
@@ -12,6 +18,12 @@ function decks(state = initialState, action) {
     action.payload && action.payload.deckId ? action.payload.deckId : 0;
 
   switch (action.type) {
+    case RECEIVE_DECKS:
+      console.log("decks RECEIVE_DECKS decks: ", action.payload.decks);
+      return {
+        ...state,
+        ...action.payload.decks,
+      };
     case ADD_DECK:
       const { title } = action.payload;
       return {
