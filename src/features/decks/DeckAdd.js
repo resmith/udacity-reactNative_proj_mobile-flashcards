@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { connect } from "react-redux";
 
-import { handleAddDeck, addDeck } from "../redux/actions";
-import CustomButton from "../components/CustomButton";
-import InputLabel from "../components/InputLabel";
-import { BUTTON_PRIMARY_COLOR } from "../res/colors";
+import { handleAddDeck, addDeck } from "../../redux/actions";
+import CustomButton from "../../components/CustomButton";
+import InputLabel from "../../components/InputLabel";
+import { BUTTON_PRIMARY_COLOR } from "../../res/colors";
 
 class DeckAdd extends Component {
   constructor(props) {

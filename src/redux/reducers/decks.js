@@ -6,12 +6,11 @@ import {
   RESET_QUIZ,
 } from "../actionTypes";
 
+// TODO -->> See about getting the decks from Async storage for populating the state
 const initialState = {
   allIds: [],
   byIds: {},
 };
-
-// NOTE: RECEIVE_DECKS - Replaced with selectors - per Redux page code
 
 function decks(state = initialState, action) {
   const id =

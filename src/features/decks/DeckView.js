@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import { connect } from "react-redux";
-import { getDeckById } from "../redux/selectors";
+import { getDeckById } from "../../redux/selectors";
 
-import CustomButton from "../components/CustomButton";
-import PageHeading from "../components/PageHeading";
+import CustomButton from "../../components/CustomButton";
+import PageHeading from "../../components/PageHeading";
 import {
   BUTTON_PRIMARY_COLOR,
   BUTTON_SECONDARY_COLOR,
   CARD_BORDER,
-} from "../res/colors";
+} from "../../res/colors";
 
 class DeckView extends Component {
   render() {

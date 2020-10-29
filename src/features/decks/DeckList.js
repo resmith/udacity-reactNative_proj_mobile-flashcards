@@ -9,10 +9,10 @@ import {
 import { connect } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import PageHeading from "../components/PageHeading";
-import { CARD_BORDER } from "../res/colors";
-// import { getDecks } from "../redux/selectors";
-import { handleGetDecks } from "../redux/actions";
+import PageHeading from "../../components/PageHeading";
+import { CARD_BORDER } from "../../res/colors";
+import { getDecks } from "../../redux/selectors";
+// import { handleGetDecks } from "../redux/actions";
 import DeckAdd from "./DeckAdd";
 
 // navigation.navigate("DeckView", {
@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  console.log("DeckList handleGetDecks(state): ", handleGetDecks(state));
-  const decks = handleGetDecks(state);
+  console.log("DeckList getDecks(state): ", getDecks(state));
+  const decks = getDecks(state);
   return { decks };
 };
 

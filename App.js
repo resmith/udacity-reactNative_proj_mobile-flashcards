@@ -8,11 +8,11 @@ import { Provider } from "react-redux";
 
 import store from "./src/redux/store";
 
-import DeckList from "./src/pages/DeckList";
-import DeckAdd from "./src/pages/DeckAdd";
-import DeckView from "./src/pages/DeckView";
-import CardAdd from "./src/pages/CardAdd";
-import Quiz from "./src/pages/Quiz";
+import DeckList from "./src/features/decks/DeckList";
+import DeckAdd from "./src/features/decks/DeckAdd";
+import DeckView from "./src/features/decks/DeckView";
+import CardAdd from "./src/features/cards/CardAdd";
+import Quiz from "./src/features/quiz/Quiz";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

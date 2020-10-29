@@ -2,20 +2,20 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import { connect } from "react-redux";
-import { answerQuiz, resetQuiz } from "../redux/actions";
+import { answerQuiz, resetQuiz } from "../../redux/actions";
 
-import { getDeckById } from "../redux/selectors";
+import { getDeckById } from "../../redux/selectors";
 
-import CustomButton from "../components/CustomButton";
-import CustomCard from "../components/CustomCard";
-import PageHeading from "../components/PageHeading";
+import CustomButton from "../../components/CustomButton";
+import CustomCard from "../../components/CustomCard";
+import PageHeading from "../../components/PageHeading";
 import {
   BUTTON_PRIMARY_COLOR,
   BUTTON_SECONDARY_COLOR,
   BUTTON_ANSWER_CORRECT,
   BUTTON_ANSWER_INCORRECT,
   BUTTON_DISABLED_COLOR,
-} from "../res/colors";
+} from "../../res/colors";
 
 class Quiz extends Component {
   constructor(props) {
