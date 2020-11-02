@@ -1,4 +1,5 @@
 import {
+  LOAD_INITIAL_DATA,
   RECEIVE_DECKS,
   ADD_DECK,
   ADD_CARD,
@@ -17,11 +18,35 @@ function decks(state = initialState, action) {
     action.payload && action.payload.deckId ? action.payload.deckId : 0;
 
   switch (action.type) {
+    case LOAD_INITIAL_DATA:
+      console.log(
+        "reducer - decks - LOAD_INITIAL_DATA action.payload: ",
+        action.payload
+      );
+      console.log("reducer - decks - LOAD_INITIAL_DATA returning: ", {
+        ...state,
+        ...action.payload,
+      });
+      return {
+        ...state,
+        ...action.payload,
+      };
     case RECEIVE_DECKS:
       console.log("decks RECEIVE_DECKS decks: ", action.payload.decks);
       return {
         ...state,
-        ...action.payload.decks,
+        allIds: [...state.allIds, id],
+        byIds: {
+          ...state.byIds,
+          [id]: {
+            title,
+            numOfCards: 0,
+            indexCurrentQuestion: 0,
+            questionsAnswered: 0,
+            questionsAnsweredCorrectly: 0,
+            questions: [],
+          },
+        },
       };
     case ADD_DECK:
       const { title } = action.payload;

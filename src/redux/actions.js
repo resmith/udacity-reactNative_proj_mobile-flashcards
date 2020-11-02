@@ -4,7 +4,7 @@ import {
   ADD_CARD,
   ANSWER_QUIZ,
   RESET_QUIZ,
-  RECEIVE_DECKS,
+  LOAD_INITIAL_DATA,
 } from "./actionTypes";
 import { convertTitleToKey } from "../utils/helpers";
 import { getDecks, saveDeckTitle } from "../utils/api";
@@ -56,12 +56,41 @@ export const resetQuiz = ({ deckId }) => ({
   },
 });
 
-export function receiveDecks(decks) {
+const initialData = {
+  allIds: ["aTest"],
+  byIds: {
+    aTest: {
+      id: "aTest",
+      indexCurrentQuestion: 1,
+      numOfCards: 0,
+      questions: [],
+      questionsAnswered: 0,
+      questionsAnsweredCorrectly: 0,
+      title: "a",
+    },
+  },
+};
+
+export function loadData(decks) {
   return {
-    type: RECEIVE_DECKS,
-    decks: decks,
+    type: LOAD_INITIAL_DATA,
+    payload: decks,
   };
 }
+
+export async function loadInitialData(dispatch, getState) {
+  // const response = await client.get('/fakeApi/todos')
+  const response = initialData;
+  console.log("loadInitialData response: ", response);
+  dispatch(loadData(response));
+}
+
+// export function loadInitialData(decks) {
+//   return (dispatch) => {
+//     dispatch(loadData(initialData));
+//     return {decks: initialData}
+//   };
+// }
 
 export function handleGetDecks() {
   return (dispatch) => {

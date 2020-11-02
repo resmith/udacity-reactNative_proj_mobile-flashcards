@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
 
 import store from "./src/redux/store";
+import { loadInitialData } from "./src/redux/actions";
 
 import DeckList from "./src/features/decks/DeckList";
 import DeckAdd from "./src/features/decks/DeckAdd";
@@ -16,6 +17,7 @@ import Quiz from "./src/features/quiz/Quiz";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+store.dispatch(loadInitialData);
 
 function Home() {
   return (
