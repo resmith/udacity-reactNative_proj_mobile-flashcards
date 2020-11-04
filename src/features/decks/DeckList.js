@@ -12,7 +12,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PageHeading from "../../components/PageHeading";
 import { CARD_BORDER } from "../../res/colors";
 import { getDecks } from "../../redux/selectors";
-// import { handleGetDecks } from "../redux/actions";
 import DeckAdd from "./DeckAdd";
 
 // navigation.navigate("DeckView", {
@@ -52,7 +51,7 @@ class DeckList extends Component {
             <Text style={styles.deckText}>{item.title}</Text>
           </View>
           <View style={styles.numOfCards}>
-            <Text>{item.numOfCards} cards</Text>
+            <Text>{item.questions.length} cards</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -60,7 +59,6 @@ class DeckList extends Component {
   };
 
   render() {
-    console.log("DeckList this.props: ", this.props);
     const { navigation, decks } = this.props;
 
     return (
@@ -122,7 +120,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  console.log("DeckList getDecks(state): ", getDecks(state));
   const decks = getDecks(state);
   return { decks };
 };

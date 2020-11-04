@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { connect } from "react-redux";
 
-import { handleAddDeck, addDeck } from "../../redux/actions";
+import { addDeck } from "../../redux/actions";
 import CustomButton from "../../components/CustomButton";
 import InputLabel from "../../components/InputLabel";
 import { BUTTON_PRIMARY_COLOR } from "../../res/colors";
@@ -14,7 +14,7 @@ class DeckAdd extends Component {
   }
 
   submit = () => {
-    this.props.handleAddDeck(this.state.input);
+    this.props.addDeck(this.state.input);
 
     this.setState({ input: "" });
     // this.setState(() => ({ input: "" }));
@@ -57,4 +57,4 @@ function mapStateToProps(state) {
   return {};
 }
 
-export default connect(mapStateToProps, { handleAddDeck })(DeckAdd);
+export default connect(mapStateToProps, { addDeck })(DeckAdd);

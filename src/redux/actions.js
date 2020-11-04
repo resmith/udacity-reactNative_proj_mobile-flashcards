@@ -1,45 +1,53 @@
 import {
   ADD_DECK,
-  REMOVE_DECK,
+  REMOVE_DECKS,
   ADD_CARD,
   ANSWER_QUIZ,
   RESET_QUIZ,
   LOAD_INITIAL_DATA,
 } from "./actionTypes";
 import { convertTitleToKey } from "../utils/helpers";
-import { getDecks, saveDeckTitle } from "../utils/api";
+import {
+  getDecks,
+  addDeckStorage,
+  addCardStorage,
+  removeDecksStorage,
+} from "../utils/api";
 
-function addDeck(title) {
-  const deckId = convertTitleToKey(title);
-  return {
-    type: ADD_DECK,
-    payload: {
-      deckId,
+export function addDeck(title) {
+  return async function saveNewDeck(dispatch, getState) {
+    const deckId = convertTitleToKey(title);
+    const deck = {
       title,
-      numOfCards: 0,
-    },
+      deckId,
+      indexCurrentQuestion: 0,
+      questionsAnswered: 0,
+      questionsAnsweredCorrectly: 0,
+      questions: [],
+    };
+    addDeckStorage(deck);
+    dispatch({
+      type: ADD_DECK,
+      payload: deck,
+    });
   };
 }
 
-export function handleAddDeck(title) {
-  return (dispatch) => {
-    dispatch(addDeck(title));
-
-    // return saveDeckTitle(title).catch(() => {
-    //   dispatch(REMOVE_DECK(title));
-    //   alert("Error on saving Deck. Please try again");
-    // });
+export function addCard({ deckId, question, answer }) {
+  return async function saveNewCard(dispatch, getState) {
+    const deck = getState().decks.byIds[deckId];
+    const card = { question, answer };
+    const cards = [...deck.questions, card];
+    addCardStorage({ deckId, cards });
+    dispatch({
+      type: ADD_CARD,
+      payload: {
+        deckId,
+        card,
+      },
+    });
   };
 }
-
-export const addCard = ({ deckId, question, answer }) => ({
-  type: ADD_CARD,
-  payload: {
-    deckId,
-    question,
-    answer,
-  },
-});
 
 export const answerQuiz = ({ deckId, questionAnsweredCorrectly }) => ({
   type: ANSWER_QUIZ,
@@ -56,46 +64,20 @@ export const resetQuiz = ({ deckId }) => ({
   },
 });
 
-const initialData = {
-  allIds: ["aTest"],
-  byIds: {
-    aTest: {
-      id: "aTest",
-      indexCurrentQuestion: 1,
-      numOfCards: 0,
-      questions: [],
-      questionsAnswered: 0,
-      questionsAnsweredCorrectly: 0,
-      title: "a",
-    },
-  },
-};
-
-export function loadData(decks) {
-  return {
-    type: LOAD_INITIAL_DATA,
-    payload: decks,
-  };
+export async function removeDecks(dispatch, getState) {
+  const response = await removeDecksStorage();
+  dispatch({
+    type: REMOVE_DECKS,
+    payload: {},
+  });
+  return response;
 }
 
 export async function loadInitialData(dispatch, getState) {
-  // const response = await client.get('/fakeApi/todos')
-  const response = initialData;
-  console.log("loadInitialData response: ", response);
-  dispatch(loadData(response));
-}
-
-// export function loadInitialData(decks) {
-//   return (dispatch) => {
-//     dispatch(loadData(initialData));
-//     return {decks: initialData}
-//   };
-// }
-
-export function handleGetDecks() {
-  return (dispatch) => {
-    return getDecks().then(({ decks }) => {
-      dispatch(receiveDecks(decks));
-    });
-  };
+  const decks = await getDecks();
+  dispatch({
+    type: LOAD_INITIAL_DATA,
+    payload: decks,
+  });
+  return decks;
 }

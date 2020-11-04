@@ -20,7 +20,6 @@ class CardAdd extends Component {
       question: this.state.question,
       answer: this.state.answer,
     });
-    this.setState({ question: "", answer: "" });
 
     // Write to API submitEntry({ key, entry });
     this.setState(() => ({ question: "", answer: "" }));

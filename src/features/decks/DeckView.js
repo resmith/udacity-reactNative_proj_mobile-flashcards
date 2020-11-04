@@ -24,7 +24,7 @@ class DeckView extends Component {
             <Text style={styles.deckText}>{deck.title}</Text>
           </View>
           <View style={styles.numOfCards}>
-            <Text>{deck.numOfCards} cards</Text>
+            <Text>{deck.questions.length} cards</Text>
           </View>
         </View>
 

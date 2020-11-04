@@ -14,6 +14,7 @@ You'll need a mobile emulator. For Android, that's either Android Studio or Geny
 [See this code example for model used] (https://codesandbox.io/s/todo-app-with-redux-forked-myztr)
 [React Navigation]()
 [Safe Area View - as recommended by React Navigation](https://github.com/th3rdwave/react-native-safe-area-context)
+[Redux and Async Logic](https://redux.js.org/tutorials/fundamentals/part-6-async-logic)
 
 ## Next Steps
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { AsyncStorage } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -6,8 +7,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
 
+export const DECK_STORAGE_KEY = "MobileFlashcard:deck";
 import store from "./src/redux/store";
-import { loadInitialData } from "./src/redux/actions";
+import { loadInitialData, removeDecks } from "./src/redux/actions";
 
 import DeckList from "./src/features/decks/DeckList";
 import DeckAdd from "./src/features/decks/DeckAdd";
@@ -17,6 +19,8 @@ import Quiz from "./src/features/quiz/Quiz";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+// store.dispatch(removeDecks); // Used to initialize storage
 store.dispatch(loadInitialData);
 
 function Home() {

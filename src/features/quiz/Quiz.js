@@ -24,7 +24,7 @@ class Quiz extends Component {
   }
   render() {
     const { deck } = this.props;
-    const cardsLeft = deck.numOfCards - deck.questionsAnswered;
+    const cardsLeft = deck.questions.length - deck.questionsAnswered;
     return (
       <View>
         <PageHeading title="Quiz" />
@@ -41,7 +41,11 @@ class Quiz extends Component {
             <Text>Cards Left: {cardsLeft}</Text>
             <Text>
               Correct:{" "}
-              {(deck.questionsAnsweredCorrectly / deck.numOfCards) * 100}%
+              {(
+                (deck.questionsAnsweredCorrectly / deck.questions.length) *
+                100
+              ).toFixed(2)}
+              %
             </Text>
           </View>
         </CustomCard>
