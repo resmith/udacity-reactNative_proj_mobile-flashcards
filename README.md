@@ -15,7 +15,7 @@ From a command line terminal
 2. cd to the directory the app is in
 3. npm install
 4. npm start
-
+```
 
 ## Technology Used
 
@@ -24,7 +24,6 @@ From a command line terminal
 [React Navigation]()
 [Safe Area View - as recommended by React Navigation](https://github.com/th3rdwave/react-native-safe-area-context)
 [Redux and Async Logic](https://redux.js.org/tutorials/fundamentals/part-6-async-logic)
-
 
 ###### Directory Structure
 
@@ -39,7 +38,7 @@ From a command line terminal
 - Othermiddleware used is Thunk
   /src/utils - the data primarily. Also includes the API for Async storage and the expo calls for removal of notifications.
 
-_N###### Redux
+\_N###### Redux
 
 The primary redux stores/actions/reducers are:
 
@@ -49,6 +48,7 @@ The primary redux stores/actions/reducers are:
 The quiz execution is updated in the deck object properties.
 
 ###### AsyncStorage
+
 This application in addition to using state uses Async storage. At application startup (in App.js) the decks and the notifications are loaded. The quiz statuses are not in Async storage.
 
 ## Notes
@@ -94,6 +94,8 @@ extraData={navigator}
 ...
 )
 }
+
+```
 
 ```
 
