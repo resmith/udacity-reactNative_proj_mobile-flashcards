@@ -8,6 +8,15 @@ Mobile FlashCards
 
 You'll need a mobile emulator. For Android, that's either Android Studio or GenyMotion. I've used both and prefer GenyMotion, but it's about \$150/year for a personal license.
 
+From a command line terminal
+
+```
+1. git clone <this repo>
+2. cd to the directory the app is in
+3. npm install
+4. npm start
+
+
 ## Technology Used
 
 [React Redux](https://react-redux.js.org/)
@@ -16,14 +25,31 @@ You'll need a mobile emulator. For Android, that's either Android Studio or Geny
 [Safe Area View - as recommended by React Navigation](https://github.com/th3rdwave/react-native-safe-area-context)
 [Redux and Async Logic](https://redux.js.org/tutorials/fundamentals/part-6-async-logic)
 
-## Next Steps
 
-[Redux ToolKit](https://redux-toolkit.js.org/) looks to be the next step. The standard Redux was used to ensure the fundamentals were solidly utilized.
+###### Directory Structure
 
-Creation of stylesheets based on props (see src/components/CustomButton)
+/src - contains all the app code
 
-[Reactotron for debugging](https://shift.infinite.red/start-using-reactotron-in-your-expo-project-today-in-3-easy-steps-a03d11032a7a)
-[Reactotron w/ Redux](npm install --save-dev reactotron-redux)
+/src/components - contains reusable components. CustomButton, Cards, ...
+
+/src/features - organizes the pages by features, which are: decks, cards, quiz and notifications
+
+/src/redux - contains all state management. Within this it's further divided into decks (src/redux/decks) and notifications (src/redux/notifications)
+
+- Othermiddleware used is Thunk
+  /src/utils - the data primarily. Also includes the API for Async storage and the expo calls for removal of notifications.
+
+_N###### Redux
+
+The primary redux stores/actions/reducers are:
+
+- decks: The list of decks including the cards. The object has an "allIds" and a "byIds". The "allIds" contains an array of the deck ids. The "byIds" contains the full object details.
+- notifications: list of the notfications
+
+The quiz execution is updated in the deck object properties.
+
+###### AsyncStorage
+This application in addition to using state uses Async storage. At application startup (in App.js) the decks and the notifications are loaded. The quiz statuses are not in Async storage.
 
 ## Notes
 
@@ -39,33 +65,36 @@ After opening the app and letting it run, then comment it again
 In DeckList, used Flatlist and I needed to pass the navigation to go to the detailed view. Tried using the _extra_ property on Flatlist but couldn't get it to work. Instead used this.props.For this.props to be passed, the function couldn't be defined as _renderDeck() {}_ but instead had to be defined via the arrow syntax _ renderDeck = ({ item }) => {_
 
 ```
-class DeckList extends Component {
-  renderDeck = ({ item }) => {
-    return (
-        ...
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate("DeckView");
-            }}
-          >
-            <Text>{item.title}</Text>
-          </TouchableOpacity>
-        ...
-    );
-  };
 
-  render() {
-    return (
-      ...
-    <FlatList
-          data={decks}
-          renderItem={this.renderDeck}
-          keyExtractor={(deck) => deck.id}
-          numColumns={1}
-          ListHeaderComponent={this.renderDeckListHeader}
-          extraData={navigator}
-        />
-    ...
-    )
-    }
+class DeckList extends Component {
+renderDeck = ({ item }) => {
+return (
+...
+<TouchableOpacity
+onPress={() => {
+this.props.navigation.navigate("DeckView");
+}} >
+<Text>{item.title}</Text>
+</TouchableOpacity>
+...
+);
+};
+
+render() {
+return (
+...
+<FlatList
+data={decks}
+renderItem={this.renderDeck}
+keyExtractor={(deck) => deck.id}
+numColumns={1}
+ListHeaderComponent={this.renderDeckListHeader}
+extraData={navigator}
+/>
+...
+)
+}
+
+```
+
 ```
