@@ -25,7 +25,7 @@ From a command line terminal
 [Safe Area View - as recommended by React Navigation](https://github.com/th3rdwave/react-native-safe-area-context)
 [Redux and Async Logic](https://redux.js.org/tutorials/fundamentals/part-6-async-logic)
 
-###### Directory Structure
+## Directory Structure
 
 /src - contains all the app code
 
@@ -38,7 +38,7 @@ From a command line terminal
 - Othermiddleware used is Thunk
   /src/utils - the data primarily. Also includes the API for Async storage and the expo calls for removal of notifications.
 
-\_N###### Redux
+## Redux
 
 The primary redux stores/actions/reducers are:
 
@@ -47,7 +47,7 @@ The primary redux stores/actions/reducers are:
 
 The quiz execution is updated in the deck object properties.
 
-###### AsyncStorage
+## AsyncStorage
 
 This application in addition to using state uses Async storage. At application startup (in App.js) the decks and the notifications are loaded. The quiz statuses are not in Async storage.
 
