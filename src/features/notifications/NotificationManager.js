@@ -85,7 +85,6 @@ function NotificationManager(props) {
   const notificationsArray = Object.values(notifications).sort(
     (a, b) => a.id - b.id
   );
-  console.log("App notificationsArray: ", notificationsArray);
   listNotificationsStorage();
 
   return (
@@ -140,7 +139,6 @@ function NotificationManager(props) {
 }
 
 async function schedulePushNotification(date, addNotification) {
-  console.log("App schedulePushNotification date: ", date);
   await Notifications.scheduleNotificationAsync({
     content: {
       title: "You need to study!",
@@ -168,7 +166,7 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    // console.log(token);
   } else {
     alert("Must use physical device for Push Notifications");
   }

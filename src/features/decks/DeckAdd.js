@@ -57,4 +57,4 @@ function mapStateToProps(state) {
   return {};
 }
 
-export default connect(mapStateToProps, { handleAddDeck })(DeckAdd);
+export default connect(mapStateToProps, { addDeck })(DeckAdd);

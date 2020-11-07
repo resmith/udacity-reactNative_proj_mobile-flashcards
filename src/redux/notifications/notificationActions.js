@@ -25,7 +25,6 @@ export async function loadNotifications(dispatch, getState) {
 
 export function addNotification(dateTime) {
   return async function saveNewNotification(dispatch, getState) {
-    console.log("actions addNotification dateTime: ", dateTime);
     addNotificationStorage(dateTime);
     dispatch({
       type: ADD_NOTIFICATION,
@@ -35,14 +34,10 @@ export function addNotification(dateTime) {
 }
 
 export async function removeNotifications(dispatch, getState, removeDateTime) {
-  console.log("notificationActions removeNotifications dispatch");
   dispatch({
     type: REMOVE_NOTIFICATIONS,
     payload: { removeDateTime },
   });
-  console.log(
-    "notificationActions removeNotifications removeNotificationsStorage"
-  );
   removeNotificationsExpo(removeDateTime);
   removeNotificationsStorage(removeDateTime);
   return {};

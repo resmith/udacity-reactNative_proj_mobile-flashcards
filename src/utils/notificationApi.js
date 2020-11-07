@@ -58,7 +58,7 @@ export async function removeAllNotificationsStorage() {
     const data = await AsyncStorage.removeItem(NOTIFICATION_STORAGE_KEY);
     return data;
   } catch (error) {
-    console.log("api/removeDecksStorage error: ", error);
+    console.log("api/removeAllNotificationsStorage error: ", error);
     return null;
   }
 }
@@ -67,10 +67,9 @@ export async function removeAllNotificationsStorage() {
 export async function listNotificationsStorage() {
   try {
     const data = await AsyncStorage.getItem(NOTIFICATION_STORAGE_KEY);
-    console.log("api/listNotificationsStorage data: ", data);
     return { completion: "successfull" };
   } catch (error) {
-    console.log("api/removeNotificationsStorage error: ", error);
+    console.log("api/listNotificationsStorage error: ", error);
     return null;
   }
 }
