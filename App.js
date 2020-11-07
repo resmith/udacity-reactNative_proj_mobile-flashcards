@@ -1,5 +1,4 @@
 import React from "react";
-import { AsyncStorage } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -9,30 +8,41 @@ import { Provider } from "react-redux";
 
 export const DECK_STORAGE_KEY = "MobileFlashcard:deck";
 import store from "./src/redux/store";
-import { loadInitialData, removeDecks } from "./src/redux/actions";
+import { loadDecks, removeDecks } from "./src/redux/decks/deckActions";
+import {
+  loadNotifications,
+  removeAllNotifications,
+} from "./src/redux/notifications/notificationActions";
+import { listNotificationsStorage } from "./src/utils/notificationApi";
 
 import DeckList from "./src/features/decks/DeckList";
 import DeckAdd from "./src/features/decks/DeckAdd";
 import DeckView from "./src/features/decks/DeckView";
 import CardAdd from "./src/features/cards/CardAdd";
 import Quiz from "./src/features/quiz/Quiz";
+import NotificationManager from "./src/features/notifications/NotificationManager";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // store.dispatch(removeDecks); // Used to initialize storage
-store.dispatch(loadInitialData);
+// store.dispatch(removeAllNotifications); // Used to initialize storage
+store.dispatch(loadDecks);
+store.dispatch(loadNotifications);
 
 function Home() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="DeckList" component={DeckList} />
       <Tab.Screen name="DeckAdd" component={DeckAdd} />
+      <Tab.Screen name="Notifications" component={NotificationManager} />
     </Tab.Navigator>
   );
 }
 
 export default function App() {
+  listNotificationsStorage(); // Used to send to console what's in storage
+
   return (
     <Provider store={store}>
       <SafeAreaProvider style={styles.app}>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import { connect } from "react-redux";
-import { getDeckById } from "../../redux/selectors";
+import { getDeckById } from "../../redux/decks/deckSelectors";
 
 import CustomButton from "../../components/CustomButton";
 import PageHeading from "../../components/PageHeading";

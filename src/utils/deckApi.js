@@ -1,7 +1,7 @@
 import { AsyncStorage } from "react-native";
 
 // Defined here instead of constants because this API is the only user of the constants
-export const DECK_STORAGE_KEY = "MobileFlashcard:deck";
+const DECK_STORAGE_KEY = "MobileFlashcard:deck";
 
 export async function getDecks() {
   try {
@@ -73,7 +73,7 @@ export async function addCardStorage({ deckId, cards }) {
 
 export async function removeDecksStorage() {
   try {
-    const data = await AsyncStorage.clear();
+    const data = await AsyncStorage.removeItem(DECK_STORAGE_KEY);
     return data;
   } catch (error) {
     console.log("api/removeDecksStorage error: ", error);

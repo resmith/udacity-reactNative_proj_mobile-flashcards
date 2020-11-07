@@ -4,15 +4,26 @@ import {
   ADD_CARD,
   ANSWER_QUIZ,
   RESET_QUIZ,
-  LOAD_INITIAL_DATA,
-} from "./actionTypes";
-import { convertTitleToKey } from "../utils/helpers";
+  LOAD_DECKS,
+} from "./deckActionTypes";
+import { convertTitleToKey } from "../../utils/helpers";
 import {
   getDecks,
   addDeckStorage,
   addCardStorage,
   removeDecksStorage,
-} from "../utils/api";
+} from "../../utils/deckApi";
+
+import { removeNotifications } from "../notifications/notificationActions";
+
+export async function loadDecks(dispatch, getState) {
+  const decks = await getDecks();
+  dispatch({
+    type: LOAD_DECKS,
+    payload: decks,
+  });
+  return decks;
+}
 
 export function addDeck(title) {
   return async function saveNewDeck(dispatch, getState) {
@@ -49,13 +60,25 @@ export function addCard({ deckId, question, answer }) {
   };
 }
 
-export const answerQuiz = ({ deckId, questionAnsweredCorrectly }) => ({
-  type: ANSWER_QUIZ,
-  payload: {
-    deckId: deckId,
-    questionAnsweredCorrectly,
-  },
-});
+export function answerQuiz({
+  deckId,
+  questionAnsweredCorrectly,
+  removeDateTime,
+}) {
+  return async function answerQuizInner(dispatch, getState) {
+    dispatch({
+      type: ANSWER_QUIZ,
+      payload: {
+        deckId: deckId,
+        questionAnsweredCorrectly,
+      },
+    });
+    const deck = getState().decks.byIds[deckId];
+    if (deck.questionsAnswered === deck.questions.length) {
+      removeNotifications(dispatch, getState, removeDateTime);
+    }
+  };
+}
 
 export const resetQuiz = ({ deckId }) => ({
   type: RESET_QUIZ,
@@ -71,13 +94,4 @@ export async function removeDecks(dispatch, getState) {
     payload: {},
   });
   return response;
-}
-
-export async function loadInitialData(dispatch, getState) {
-  const decks = await getDecks();
-  dispatch({
-    type: LOAD_INITIAL_DATA,
-    payload: decks,
-  });
-  return decks;
 }

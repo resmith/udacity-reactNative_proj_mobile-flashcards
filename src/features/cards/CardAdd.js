@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { connect } from "react-redux";
 
-import { addCard } from "../../redux/actions";
+import { addCard } from "../../redux/decks/deckActions";
 import { convertTitleToKey } from "../../utils/helpers";
 import CustomButton from "../../components/CustomButton";
 import InputLabel from "../../components/InputLabel";

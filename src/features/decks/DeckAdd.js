@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { connect } from "react-redux";
 
-import { addDeck } from "../../redux/actions";
+import { addDeck } from "../../redux/decks/deckActions";
 import CustomButton from "../../components/CustomButton";
 import InputLabel from "../../components/InputLabel";
 import { BUTTON_PRIMARY_COLOR } from "../../res/colors";

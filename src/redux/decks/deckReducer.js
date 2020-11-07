@@ -1,11 +1,11 @@
 import {
-  LOAD_INITIAL_DATA,
+  LOAD_DECKS,
   ADD_DECK,
   REMOVE_DECKS,
   ADD_CARD,
   ANSWER_QUIZ,
   RESET_QUIZ,
-} from "../actionTypes";
+} from "./deckActionTypes";
 
 const initialState = {
   allIds: [],
@@ -17,7 +17,7 @@ function decks(state = initialState, action) {
     action.payload && action.payload.deckId ? action.payload.deckId : 0;
 
   switch (action.type) {
-    case LOAD_INITIAL_DATA:
+    case LOAD_DECKS:
       let deckIds = [];
       let deckObjects = {};
       if (action.payload === null) {

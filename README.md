@@ -25,6 +25,15 @@ Creation of stylesheets based on props (see src/components/CustomButton)
 [Reactotron for debugging](https://shift.infinite.red/start-using-reactotron-in-your-expo-project-today-in-3-easy-steps-a03d11032a7a)
 [Reactotron w/ Redux](npm install --save-dev reactotron-redux)
 
+## Notes
+
+Sometimes with this code, there may have been an easier way, but the intent of this project was to utilize a broad range of coding in react native. For instance, the notifications state could have mimicked the decks state with it's allIds & byIds. That would have been the easy way. It was decided to utilize a different but legitimate method for a greater understanding.
+
+To reset the async storage, go to App.js and uncomment:
+store.dispatch(removeDecks); // Used to initialize storage
+
+After opening the app and letting it run, then comment it again
+
 ## Issues Encountered
 
 In DeckList, used Flatlist and I needed to pass the navigation to go to the detailed view. Tried using the _extra_ property on Flatlist but couldn't get it to work. Instead used this.props.For this.props to be passed, the function couldn't be defined as _renderDeck() {}_ but instead had to be defined via the arrow syntax _ renderDeck = ({ item }) => {_

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { loadInitialData, loadData } from "./src/redux/actions";
+import { loadInitialData, loadData } from "./src/redux/decks/deckActions";
 
 // The purpose of this is just to load data
 // This could not be put in App.js, because it is not wrapped in the provider/store

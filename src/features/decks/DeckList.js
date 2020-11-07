@@ -11,7 +11,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import PageHeading from "../../components/PageHeading";
 import { CARD_BORDER } from "../../res/colors";
-import { getDecks } from "../../redux/selectors";
+import { getDecks } from "../../redux/decks/deckSelectors";
 import DeckAdd from "./DeckAdd";
 
 // navigation.navigate("DeckView", {

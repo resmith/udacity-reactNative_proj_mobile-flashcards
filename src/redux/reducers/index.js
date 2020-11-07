@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
-import decks from "./decks";
+import decks from "../decks/deckReducer";
+import notifications from "../notifications/notificationReducer";
 
-export default combineReducers({ decks });
+export default combineReducers({ decks, notifications });

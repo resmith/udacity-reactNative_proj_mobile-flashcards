@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import { connect } from "react-redux";
-import { answerQuiz, resetQuiz } from "../../redux/actions";
-
-import { getDeckById } from "../../redux/selectors";
+import { answerQuiz, resetQuiz } from "../../redux/decks/deckActions";
+import { getDeckById } from "../../redux/decks/deckSelectors";
 
 import CustomButton from "../../components/CustomButton";
 import CustomCard from "../../components/CustomCard";
 import PageHeading from "../../components/PageHeading";
+import { dateEOD } from "../../utils/helpers";
 import {
   BUTTON_PRIMARY_COLOR,
   BUTTON_SECONDARY_COLOR,
@@ -64,7 +64,11 @@ class Quiz extends Component {
               title="Correct"
               onPress={() => {
                 this.props.dispatch(
-                  answerQuiz({ deckId: deck.id, questionAnsweredCorrectly: 1 })
+                  answerQuiz({
+                    deckId: deck.id,
+                    questionAnsweredCorrectly: 1,
+                    removeDateTime: dateEOD(),
+                  })
                 );
               }}
               buttonColor={
@@ -76,7 +80,11 @@ class Quiz extends Component {
               title="Incorrect"
               onPress={() => {
                 this.props.dispatch(
-                  answerQuiz({ deckId: deck.id, questionAnsweredCorrectly: 0 })
+                  answerQuiz({
+                    deckId: deck.id,
+                    questionAnsweredCorrectly: 0,
+                    removeDateTime: dateEOD(),
+                  })
                 );
               }}
               buttonColor={

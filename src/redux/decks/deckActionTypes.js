@@ -5,4 +5,4 @@ export const ADD_CARD = "ADD_CARD";
 export const START_QUIZ = "START_QUIZ";
 export const ANSWER_QUIZ = "ANSWER_QUIZ";
 export const RESET_QUIZ = "RESET_QUIZ";
-export const LOAD_INITIAL_DATA = "LOAD_INITIAL_DATA";
+export const LOAD_DECKS = "LOAD_DECKS";
