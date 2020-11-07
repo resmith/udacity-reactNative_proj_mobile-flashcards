@@ -9,9 +9,10 @@ import {
 import { connect } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import PageHeading from "../../components/PageHeading";
-import { CARD_BORDER } from "../../res/colors";
-import { getDecks } from "../../redux/decks/deckSelectors";
+import PageHeading from "../components/PageHeading";
+import { CARD_BORDER } from "../res/colors";
+// import { getDecks } from "../redux/selectors";
+import { handleGetDecks } from "../redux/actions";
 import DeckAdd from "./DeckAdd";
 
 // navigation.navigate("DeckView", {
@@ -59,6 +60,7 @@ class DeckList extends Component {
   };
 
   render() {
+    console.log("DeckList this.props: ", this.props);
     const { navigation, decks } = this.props;
 
     return (
@@ -120,7 +122,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const decks = getDecks(state);
+  console.log("DeckList handleGetDecks(state): ", handleGetDecks(state));
+  const decks = handleGetDecks(state);
   return { decks };
 };
 
