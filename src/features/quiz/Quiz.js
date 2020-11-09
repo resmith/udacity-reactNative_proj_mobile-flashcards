@@ -24,6 +24,7 @@ class Quiz extends Component {
   }
   render() {
     const { deck } = this.props;
+    console.log("Quiz deck: ", deck);
     const cardsLeft = deck.questions.length - deck.questionsAnswered;
     return (
       <View>
@@ -70,6 +71,7 @@ class Quiz extends Component {
                     removeDateTime: dateEOD(),
                   })
                 );
+                this.setState({ displayAnswer: false });
               }}
               buttonColor={
                 cardsLeft !== 0 ? BUTTON_ANSWER_CORRECT : BUTTON_DISABLED_COLOR
@@ -86,6 +88,7 @@ class Quiz extends Component {
                     removeDateTime: dateEOD(),
                   })
                 );
+                this.setState({ displayAnswer: false });
               }}
               buttonColor={
                 cardsLeft !== 0
@@ -131,36 +134,11 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state, { route }) {
-  const { deckId } = route.params;
-  const deck = getDeckById(state, deckId);
+  const { id } = route.params;
+  const deck = getDeckById(state, id);
   return {
     deck,
   };
-
-  //  return {
-  //   remove: () =>
-  //     dispatch(
-  //       addEntry({
-  //         [entryId]:
-  //           timeToString() === entryId ? getDailyReminderValue() : null,
-  //       })
-  //     ),
-  //   goBack: () => navigation.goBack(),
-  // };
 }
-
-// function mapDispatchToProps(dispatch, { route, navigation }) {
-//   const { entryId } = route.params;
-//   return {
-//     remove: () =>
-//       dispatch(
-//         addEntry({
-//           [entryId]:
-//             timeToString() === entryId ? getDailyReminderValue() : null,
-//         })
-//       ),
-//     goBack: () => navigation.goBack(),
-//   };
-// }
 
 export default connect(mapStateToProps)(Quiz);

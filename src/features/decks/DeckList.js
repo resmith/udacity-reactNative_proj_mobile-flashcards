@@ -13,10 +13,7 @@ import PageHeading from "../../components/PageHeading";
 import { CARD_BORDER } from "../../res/colors";
 import { getDecks } from "../../redux/decks/deckSelectors";
 import DeckAdd from "./DeckAdd";
-
-// navigation.navigate("DeckView", {
-//   id: item.id,
-// });
+import DeckCard from "./DeckCard";
 
 const Tab = createBottomTabNavigator();
 
@@ -33,30 +30,10 @@ function DeckListBottomTabs() {
 }
 
 class DeckList extends Component {
-  // componentDidMount() {
-  //   this.props.dispatch(handleInitialData());
-  // }
-
-  renderDeck = ({ item }) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          this.props.navigation.navigate("DeckView", {
-            id: item.id,
-          });
-        }}
-      >
-        <View style={styles.deck}>
-          <View>
-            <Text style={styles.deckText}>{item.title}</Text>
-          </View>
-          <View style={styles.numOfCards}>
-            <Text>{item.questions.length} cards</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+  // renderDeckCards wrapper is needed to pass the navigation
+  renderDeckCards = ({ item }) => (
+    <DeckCard deck={item} navigation={this.props.navigation} />
+  );
 
   render() {
     const { navigation, decks } = this.props;
@@ -64,19 +41,13 @@ class DeckList extends Component {
     return (
       <View>
         <PageHeading title="Deck List" />
-        {decks && decks.length ? (
-          <FlatList
-            data={decks}
-            renderItem={this.renderDeck}
-            keyExtractor={(deck) => deck.id.toString()}
-            numColumns={1}
-          />
-        ) : (
-          <View style={styles.centeredText}>
-            <Text>No decks ;(</Text>
-            <Text>Try creating one</Text>
-          </View>
-        )}
+        <FlatList
+          data={decks}
+          renderItem={this.renderDeckCards}
+          keyExtractor={(deck) => deck.id.toString()}
+          numColumns={1}
+          ListEmptyComponent={<Text>No decks created yet! Try DeckAdd</Text>}
+        />
         <DeckListBottomTabs />
       </View>
     );

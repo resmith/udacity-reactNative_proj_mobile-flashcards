@@ -51,6 +51,21 @@ The quiz execution is updated in the deck object properties.
 
 This application in addition to using state uses Async storage. At application startup (in App.js) the decks and the notifications are loaded. The quiz statuses are not in Async storage.
 
+## Platforms Tested
+
+This application has been tested for Android with GenyMotion
+
+## Updates
+
+Converted CardAdd to a functional component
+
+## The application
+
+[Home - DeckList](./readmeImages/mobileFlashCard-1-Home-DeckList.png)
+[View Deck](./readmeImages/mobileFlashCard-2-ViewDeck.png)
+[Add Card](./readmeImages/mobileFlashCard-3-AddCard.png)
+[Quiz](./readmeImages/mobileFlashCard-4-Quiz.png)
+
 ## Notes
 
 Sometimes with this code, there may have been an easier way, but the intent of this project was to utilize a broad range of coding in react native. For instance, the notifications state could have mimicked the decks state with it's allIds & byIds. That would have been the easy way. It was decided to utilize a different but legitimate method for a greater understanding.

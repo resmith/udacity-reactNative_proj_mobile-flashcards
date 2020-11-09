@@ -13,8 +13,25 @@ import {
 } from "../../res/colors";
 
 class DeckView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { showNoQuestions: false };
+  }
+
   render() {
-    const { deck } = this.props;
+    const { deck, navigation } = this.props;
+
+    const startQuiz = () => {
+      if (deck.questions.length === 0) {
+        this.setState({ showNoQuestions: true });
+        return null;
+      } else {
+        navigation.navigate("Quiz", {
+          id: deck.id,
+        });
+        return null;
+      }
+    };
 
     return (
       <View>
@@ -39,13 +56,16 @@ class DeckView extends Component {
         />
         <CustomButton
           title="Start Quiz"
-          onPress={() => {
-            this.props.navigation.navigate("Quiz", {
-              deckId: deck.id,
-            });
-          }}
+          onPress={() => startQuiz()}
           buttonColor={BUTTON_SECONDARY_COLOR}
         />
+        <View>
+          {this.state.showNoQuestions ? (
+            <Text style={styles.error}>
+              Cannot start Quiz. There are not questions yet.
+            </Text>
+          ) : null}
+        </View>
       </View>
     );
   }
@@ -85,6 +105,11 @@ const styles = StyleSheet.create({
   quiz: {
     width: 30,
     alignItems: "flex-end",
+  },
+  error: {
+    paddingTop: 10,
+    color: "red",
+    alignSelf: "center",
   },
 });
 

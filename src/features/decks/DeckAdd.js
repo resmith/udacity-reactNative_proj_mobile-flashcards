@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 import { connect } from "react-redux";
 
 import { addDeck } from "../../redux/decks/deckActions";
+import { convertTitleToKey } from "../../utils/helpers";
 import CustomButton from "../../components/CustomButton";
 import InputLabel from "../../components/InputLabel";
 import { BUTTON_PRIMARY_COLOR } from "../../res/colors";
@@ -15,11 +16,11 @@ class DeckAdd extends Component {
 
   submit = () => {
     this.props.addDeck(this.state.input);
-
+    const deckId = convertTitleToKey(this.state.input);
+    this.props.navigation.navigate("DeckView", {
+      id: deckId,
+    });
     this.setState({ input: "" });
-    // this.setState(() => ({ input: "" }));
-
-    this.props.navigation.goBack();
   };
 
   render() {
