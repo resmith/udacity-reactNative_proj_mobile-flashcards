@@ -61,10 +61,13 @@ Converted CardAdd to a functional component
 
 ## The application
 
-[Home - DeckList](./readmeImages/mobileFlashCard-1-Home-DeckList.png)
-[View Deck](./readmeImages/mobileFlashCard-2-ViewDeck.png)
-[Add Card](./readmeImages/mobileFlashCard-3-AddCard.png)
-[Quiz](./readmeImages/mobileFlashCard-4-Quiz.png)
+[Home - DeckList](/readmeImages/mobileFlashCard-1-Home-DeckList.png)
+
+[View Deck](/readmeImages/mobileFlashCard-2-ViewDeck.png)
+
+[Add Card](/readmeImages/mobileFlashCard-3-AddCard.png)
+
+[Quiz](/readmeImages/mobileFlashCard-4-Quiz.png)
 
 ## Notes
 
