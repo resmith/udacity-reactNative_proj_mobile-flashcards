@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,53 +8,23 @@ import {
   FlatList,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import Constants from "expo-constants";
-import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
 
+// Redux
 import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addNotification } from "../../redux/notifications/notificationActions";
 import { getNotifications } from "../../redux/notifications/notificationSelectors";
 import { timestampToDate } from "../../utils/helpers";
-import { listNotificationsStorage } from "../../utils/notificationApi";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
+// Notifications
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
+import { listNotificationsStorage } from "../../utils/notificationStorageApi";
 
 function NotificationManager(props) {
-  useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
-    );
-
-    notificationListener.current = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        setNotification(notification);
-      }
-    );
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        console.log(response);
-      }
-    );
-
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener);
-      Notifications.removeNotificationSubscription(responseListener);
-    };
-  }, []);
-
   // Notification info
-  const [expoPushToken, setExpoPushToken] = useState("");
+
   const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
 
   const [date, setDate] = useState(
     new Date(new Date().setDate(new Date().getDate() + 1))
@@ -115,10 +85,7 @@ function NotificationManager(props) {
         <Button
           title="Schedule notification"
           onPress={async () => {
-            await schedulePushNotification(
-              date.getTime(),
-              props.addNotification
-            );
+            dispatch(addNotification(date.getTime()));
           }}
         />
       </View>
@@ -136,51 +103,6 @@ function NotificationManager(props) {
       </View>
     </View>
   );
-}
-
-async function schedulePushNotification(date, addNotification) {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "You need to study!",
-      body: "Study every day!",
-      data: { data: "goes here" },
-    },
-    trigger: date,
-  });
-  addNotification(date);
-}
-
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Permissions.getAsync(
-      Permissions.NOTIFICATIONS
-    );
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!");
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    // console.log(token);
-  } else {
-    alert("Must use physical device for Push Notifications");
-  }
-
-  if (Platform.OS === "android") {
-    Notifications.setNotificationChannelAsync("default", {
-      name: "default",
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C",
-    });
-  }
-
-  return token;
 }
 
 const styles = StyleSheet.create({

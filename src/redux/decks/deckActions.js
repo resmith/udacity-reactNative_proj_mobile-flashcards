@@ -1,3 +1,5 @@
+// import { useDispatch } from "react-redux";
+
 import {
   ADD_DECK,
   REMOVE_DECKS,
@@ -66,6 +68,7 @@ export function answerQuiz({
   removeDateTime,
 }) {
   return async function answerQuizInner(dispatch, getState) {
+    console.log("Answer Quiz called");
     dispatch({
       type: ANSWER_QUIZ,
       payload: {

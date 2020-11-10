@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -13,7 +13,6 @@ import {
   loadNotifications,
   removeAllNotifications,
 } from "./src/redux/notifications/notificationActions";
-import { listNotificationsStorage } from "./src/utils/notificationApi";
 
 import DeckList from "./src/features/decks/DeckList";
 import DeckAdd from "./src/features/decks/DeckAdd";
@@ -41,8 +40,6 @@ function Home() {
 }
 
 export default function App() {
-  listNotificationsStorage(); // Used to send to console what's in storage
-
   return (
     <Provider store={store}>
       <SafeAreaProvider style={styles.app}>

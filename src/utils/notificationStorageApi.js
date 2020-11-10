@@ -1,5 +1,5 @@
 import { AsyncStorage } from "react-native";
-import { SCHEDULED_NOTIFICATION } from "./notificationConstants";
+import { SCHEDULED_NOTIFICATION } from "./notificationsConstants";
 
 // Defined here instead of constants because this API is the only user of the constants
 const NOTIFICATION_STORAGE_KEY = "MobileFlashcard:notifications";
@@ -16,6 +16,7 @@ export async function loadNotificationsStorage() {
 }
 
 export async function addNotificationStorage(dateTime) {
+  console.log("api/addNotificationStorage dateTime: ", dateTime);
   try {
     const itemToStore = JSON.stringify({
       [dateTime]: { id: dateTime, status: SCHEDULED_NOTIFICATION },
@@ -35,17 +36,19 @@ export async function removeNotificationsStorage(removeDateTime) {
   try {
     const data = await AsyncStorage.getItem(NOTIFICATION_STORAGE_KEY);
     const dataParsed = JSON.parse(data);
-    const filteredNotifications = Object.keys(dataParsed)
-      .filter((key) => key > removeDateTime)
-      .reduce((obj, key) => {
-        obj[key] = dataParsed[key];
-        return obj;
-      }, {});
-    filteredNotificationsStr = JSON.stringify(filteredNotifications);
-    await AsyncStorage.setItem(
-      NOTIFICATION_STORAGE_KEY,
-      filteredNotificationsStr
-    );
+    if (dataParsed !== null) {
+      const filteredNotifications = Object.keys(dataParsed)
+        .filter((key) => key > removeDateTime)
+        .reduce((obj, key) => {
+          obj[key] = dataParsed[key];
+          return obj;
+        }, {});
+      filteredNotificationsStr = JSON.stringify(filteredNotifications);
+      await AsyncStorage.setItem(
+        NOTIFICATION_STORAGE_KEY,
+        filteredNotificationsStr
+      );
+    }
     return { status: "successfull" };
   } catch (error) {
     console.log("api/removeNotificationsStorage error: ", error);

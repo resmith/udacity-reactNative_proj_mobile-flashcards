@@ -10,6 +10,7 @@ const initialState = {};
 function notifications(state = initialState, action) {
   switch (action.type) {
     case ADD_NOTIFICATION:
+      console.log("notificationReducer action.payload: ", action.payload);
       if (action.payload === null) {
         return { ...state };
       }

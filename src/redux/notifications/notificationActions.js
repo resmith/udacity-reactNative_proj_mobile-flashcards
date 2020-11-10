@@ -4,15 +4,18 @@ import {
   REMOVE_ALL_NOTIFICATIONS,
   LOAD_NOTIFICATIONS,
 } from "./notificationActionTypes";
-import { SCHEDULED_NOTIFICATION } from "../../utils/notificationConstants";
+import { SCHEDULED_NOTIFICATION } from "../../utils/notificationsConstants";
 
 import {
   loadNotificationsStorage,
   addNotificationStorage,
   removeNotificationsStorage,
   removeAllNotificationsStorage,
-} from "../../utils/notificationApi";
-import { removeNotificationsExpo } from "../../utils/notificationsExpo";
+} from "../../utils/notificationStorageApi";
+import {
+  schedulePushNotification,
+  removeNotificationsExpo,
+} from "../../utils/notificationsExpoApi";
 
 export async function loadNotifications(dispatch, getState) {
   const notifications = await loadNotificationsStorage();
@@ -25,11 +28,20 @@ export async function loadNotifications(dispatch, getState) {
 
 export function addNotification(dateTime) {
   return async function saveNewNotification(dispatch, getState) {
-    addNotificationStorage(dateTime);
     dispatch({
       type: ADD_NOTIFICATION,
       payload: { id: dateTime, status: SCHEDULED_NOTIFICATION },
     });
+    console.log(
+      "notificationActions/addNotification  schedulePushNotification"
+    );
+    schedulePushNotification(dateTime);
+    console.log("notificationActions/addNotification  addNotificationStorage");
+    addNotificationStorage(dateTime);
+    console.log(
+      "notificationActions/addNotification  addNotificationStorage completed"
+    );
+    console.log("notificationActions/addNotification  dispatch");
   };
 }
 
