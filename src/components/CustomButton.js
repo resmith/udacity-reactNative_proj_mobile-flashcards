@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
 import { BUTTON_PRIMARY_TEXT_COLOR } from "../res/colors";
 
 class CustomButton extends Component {

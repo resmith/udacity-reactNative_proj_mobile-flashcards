@@ -1,19 +1,32 @@
 import React, { useEffect, useState, useRef } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
+
+// Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Provider } from "react-redux";
 
-export const DECK_STORAGE_KEY = "MobileFlashcard:deck";
+// Redux
+import { Provider } from "react-redux";
 import store from "./src/redux/store";
 import { loadDecks, removeDecks } from "./src/redux/decks/deckActions";
+
+// Notifications
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
+import {
+  setNotificationHandler,
+  registerForPushNotificationsAsync,
+} from "./src/utils/notificationsExpoApi";
+import { listNotificationsStorage } from "./src/utils/notificationStorageApi";
 import {
   loadNotifications,
   removeAllNotifications,
 } from "./src/redux/notifications/notificationActions";
 
+// Application
+export const DECK_STORAGE_KEY = "MobileFlashcard:deck";
 import DeckList from "./src/features/decks/DeckList";
 import DeckAdd from "./src/features/decks/DeckAdd";
 import DeckView from "./src/features/decks/DeckView";
@@ -38,8 +51,38 @@ function Home() {
     </Tab.Navigator>
   );
 }
-
+setNotificationHandler();
 export default function App() {
+  useEffect(() => {
+    // listNotificationsStorage(); // Used to send to console what's in storage
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        setNotification(notification);
+      }
+    );
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log(response);
+      }
+    );
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
+    };
+  }, []);
+
+  // Notification info
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
   return (
     <Provider store={store}>
       <SafeAreaProvider style={styles.app}>

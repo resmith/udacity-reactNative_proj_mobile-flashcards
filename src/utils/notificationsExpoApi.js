@@ -17,7 +17,6 @@ export async function setNotificationHandler() {
 }
 
 export async function schedulePushNotification(date) {
-  console.log("notificationsExpoApi/schedulePushNotification date: ", date);
   try {
     const identifier = await Notifications.scheduleNotificationAsync({
       content: {

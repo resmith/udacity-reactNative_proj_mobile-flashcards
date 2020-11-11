@@ -32,16 +32,8 @@ export function addNotification(dateTime) {
       type: ADD_NOTIFICATION,
       payload: { id: dateTime, status: SCHEDULED_NOTIFICATION },
     });
-    console.log(
-      "notificationActions/addNotification  schedulePushNotification"
-    );
     schedulePushNotification(dateTime);
-    console.log("notificationActions/addNotification  addNotificationStorage");
     addNotificationStorage(dateTime);
-    console.log(
-      "notificationActions/addNotification  addNotificationStorage completed"
-    );
-    console.log("notificationActions/addNotification  dispatch");
   };
 }
 

@@ -16,7 +16,6 @@ export async function loadNotificationsStorage() {
 }
 
 export async function addNotificationStorage(dateTime) {
-  console.log("api/addNotificationStorage dateTime: ", dateTime);
   try {
     const itemToStore = JSON.stringify({
       [dateTime]: { id: dateTime, status: SCHEDULED_NOTIFICATION },

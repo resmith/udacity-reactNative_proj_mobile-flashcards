@@ -13,14 +13,13 @@ export function timestampToDate(timeStamp) {
   return newDate.toString();
 }
 
-export function dateEOD(timeStamp) {
+export function dateEOD() {
   return new Date().setHours(23, 59, 59, 59);
 }
 
-export function dateNextDay(timeStamp) {
+export function dateNextDay() {
   var tomorrow = new Date();
   tomorrow.setDate(new Date().getDate() + 1);
   tomorrow.setHours(20, 0, 0, 0);
-  console.log("utils/helpers dateNextDay:", tomorrow);
-  return tomorrow;
+  return tomorrow.getTime();
 }

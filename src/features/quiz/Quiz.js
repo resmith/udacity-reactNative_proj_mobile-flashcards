@@ -6,22 +6,11 @@ import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
 import { answerQuiz, resetQuiz } from "../../redux/decks/deckActions";
 import { getDeckById } from "../../redux/decks/deckSelectors";
-import { addNotification } from "../../redux/notifications/notificationActions";
-
-// Notifications
-import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
-import {
-  setNotificationHandler,
-  registerForPushNotificationsAsync,
-} from "../../utils/notificationsExpoApi";
-import { listNotificationsStorage } from "../../utils/notificationStorageApi";
 
 // App Code
 import CustomButton from "../../components/CustomButton";
 import CustomCard from "../../components/CustomCard";
 import PageHeading from "../../components/PageHeading";
-import { dateEOD, dateNextDay } from "../../utils/helpers";
 import {
   BUTTON_PRIMARY_COLOR,
   BUTTON_SECONDARY_COLOR,
@@ -30,55 +19,10 @@ import {
   BUTTON_DISABLED_COLOR,
 } from "../../res/colors";
 
-setNotificationHandler();
-function Quiz({ deck, navigation, dispatch }) {
-  useEffect(() => {
-    listNotificationsStorage(); // Used to send to console what's in storage
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
-    );
-
-    notificationListener.current = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        setNotification(notification);
-      }
-    );
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        console.log(response);
-      }
-    );
-
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener);
-      Notifications.removeNotificationSubscription(responseListener);
-    };
-  }, []);
-
-  // Notification info
-  const [expoPushToken, setExpoPushToken] = useState("");
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
-
+function Quiz({ deck, navigation }) {
   const [displayAnswer, setDisplayAnswer] = useState(false);
-  const [notificationScheduled, setNotificationScheduled] = useState(false);
-
-  // const dispatch = useDispatch();
-
+  const dispatch = useDispatch();
   const cardsLeft = deck.questions.length - deck.questionsAnswered;
-
-  if (
-    (cardsLeft === 0) &
-    (deck.questions.length > 0) &
-    (notificationScheduled === false)
-  ) {
-    console.log("Quiz scheduleNotification");
-    const tommorowsNotification = dateNextDay();
-    dispatch(addNotification(tommorowsNotification));
-    setNotificationScheduled(true);
-  }
 
   return (
     <View>
@@ -117,16 +61,13 @@ function Quiz({ deck, navigation, dispatch }) {
         <View style={styles.spreadRow}>
           <CustomButton
             title="Correct"
-            onPress={() => {
-              console.log("Correct Pressed");
+            onPress={async () => {
               dispatch(
                 answerQuiz({
                   deckId: deck.id,
                   questionAnsweredCorrectly: 1,
-                  removeDateTime: dateEOD(),
                 })
               );
-              setDisplayAnswer({ displayAnswer: false });
             }}
             buttonColor={
               cardsLeft !== 0 ? BUTTON_ANSWER_CORRECT : BUTTON_DISABLED_COLOR
@@ -136,11 +77,10 @@ function Quiz({ deck, navigation, dispatch }) {
           <CustomButton
             title="Incorrect"
             onPress={() => {
-              this.props.dispatch(
+              dispatch(
                 answerQuiz({
                   deckId: deck.id,
                   questionAnsweredCorrectly: 0,
-                  removeDateTime: dateEOD(),
                 })
               );
               setDisplayAnswer({ displayAnswer: false });

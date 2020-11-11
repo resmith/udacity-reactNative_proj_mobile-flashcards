@@ -15,8 +15,11 @@ import {
   addCardStorage,
   removeDecksStorage,
 } from "../../utils/deckApi";
-
-import { removeNotifications } from "../notifications/notificationActions";
+import {
+  addNotification,
+  removeNotifications,
+} from "../notifications/notificationActions";
+import { dateEOD, dateNextDay } from "../../utils/helpers";
 
 export async function loadDecks(dispatch, getState) {
   const decks = await getDecks();
@@ -62,13 +65,8 @@ export function addCard({ deckId, question, answer }) {
   };
 }
 
-export function answerQuiz({
-  deckId,
-  questionAnsweredCorrectly,
-  removeDateTime,
-}) {
+export function answerQuiz({ deckId, questionAnsweredCorrectly }) {
   return async function answerQuizInner(dispatch, getState) {
-    console.log("Answer Quiz called");
     dispatch({
       type: ANSWER_QUIZ,
       payload: {
@@ -78,7 +76,15 @@ export function answerQuiz({
     });
     const deck = getState().decks.byIds[deckId];
     if (deck.questionsAnswered === deck.questions.length) {
+      const removeDateTime = dateEOD();
       removeNotifications(dispatch, getState, removeDateTime);
+    }
+    if (
+      (deck.questionsAnswered === deck.questions.length) &
+      (deck.questions.length > 0)
+    ) {
+      const dateTommorow = dateNextDay();
+      dispatch(addNotification(dateTommorow));
     }
   };
 }

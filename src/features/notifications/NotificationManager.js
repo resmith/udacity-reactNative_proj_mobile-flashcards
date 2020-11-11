@@ -16,24 +16,23 @@ import { addNotification } from "../../redux/notifications/notificationActions";
 import { getNotifications } from "../../redux/notifications/notificationSelectors";
 import { timestampToDate } from "../../utils/helpers";
 
-// Notifications
-import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
-import { listNotificationsStorage } from "../../utils/notificationStorageApi";
+import { dateNextDay } from "../../utils/helpers";
 
 function NotificationManager(props) {
   // Notification info
-
+  const dispatch = useDispatch();
   const [notification, setNotification] = useState(false);
 
-  const [date, setDate] = useState(
-    new Date(new Date().setDate(new Date().getDate() + 1))
-  );
+  const [date, setDate] = useState(dateNextDay());
+  // const date = dateNextDay();
+  const dateString = new Date(date);
+
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const selectedDateConverted = new Date(selectedDate).getTime();
+    const currentDate = selectedDate ? selectedDateConverted : date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
@@ -55,7 +54,6 @@ function NotificationManager(props) {
   const notificationsArray = Object.values(notifications).sort(
     (a, b) => a.id - b.id
   );
-  listNotificationsStorage();
 
   return (
     <View style={styles.pageContainer}>
@@ -79,13 +77,13 @@ function NotificationManager(props) {
         )}
       </View>
       <View style={styles.viewContainer}>
-        <Text>Date: {date ? date.toString() : null} </Text>
+        <Text>Date: {dateString ? dateString.toString() : null} </Text>
       </View>
       <View style={styles.viewContainer}>
         <Button
           title="Schedule notification"
           onPress={async () => {
-            dispatch(addNotification(date.getTime()));
+            dispatch(addNotification(date));
           }}
         />
       </View>
