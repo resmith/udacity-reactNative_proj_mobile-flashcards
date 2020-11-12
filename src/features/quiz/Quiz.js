@@ -52,7 +52,7 @@ function Quiz({ deck, navigation }) {
       <CustomButton
         title={displayAnswer ? "Hide Answer" : "Show Answer"}
         onPress={() => {
-          setDisplayAnswer({ displayAnswer: !displayAnswer });
+          setDisplayAnswer(!displayAnswer);
         }}
         buttonColor={BUTTON_PRIMARY_COLOR}
       />
@@ -68,6 +68,7 @@ function Quiz({ deck, navigation }) {
                   questionAnsweredCorrectly: 1,
                 })
               );
+              setDisplayAnswer(false);
             }}
             buttonColor={
               cardsLeft !== 0 ? BUTTON_ANSWER_CORRECT : BUTTON_DISABLED_COLOR
@@ -83,7 +84,7 @@ function Quiz({ deck, navigation }) {
                   questionAnsweredCorrectly: 0,
                 })
               );
-              setDisplayAnswer({ displayAnswer: false });
+              setDisplayAnswer(false);
             }}
             buttonColor={
               cardsLeft !== 0 ? BUTTON_ANSWER_INCORRECT : BUTTON_DISABLED_COLOR
@@ -99,6 +100,7 @@ function Quiz({ deck, navigation }) {
             title="Reset Quiz"
             onPress={() => {
               dispatch(resetQuiz({ deckId: deck.id }));
+              setDisplayAnswer(false);
             }}
             buttonColor={BUTTON_SECONDARY_COLOR}
           />

@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
-import { connect } from "react-redux";
 
+// Redux
+import { connect } from "react-redux";
 import { addDeck } from "../../redux/decks/deckActions";
 import { convertTitleToKey } from "../../utils/helpers";
+import { getDeckList } from "../../redux/decks/deckSelectors";
+
+// App
 import CustomButton from "../../components/CustomButton";
 import InputLabel from "../../components/InputLabel";
 import { BUTTON_PRIMARY_COLOR } from "../../res/colors";
@@ -11,16 +15,24 @@ import { BUTTON_PRIMARY_COLOR } from "../../res/colors";
 class DeckAdd extends Component {
   constructor(props) {
     super(props);
-    this.state = { input: "" };
+    this.state = { input: "", duplicateDeckid: false };
   }
 
   submit = () => {
-    this.props.addDeck(this.state.input);
-    const deckId = convertTitleToKey(this.state.input);
-    this.props.navigation.navigate("DeckView", {
-      id: deckId,
-    });
-    this.setState({ input: "" });
+    const { deckIds } = this.props;
+    const newDeckTitle = this.state.input;
+    const newDeckId = convertTitleToKey(newDeckTitle);
+
+    if (!deckIds.includes(newDeckId)) {
+      this.setState({ duplicateDeckid: false });
+      this.props.addDeck(newDeckTitle);
+      this.props.navigation.navigate("DeckView", {
+        id: newDeckId,
+      });
+      this.setState({ input: "" });
+    } else {
+      this.setState({ duplicateDeckid: true });
+    }
   };
 
   render() {
@@ -39,6 +51,9 @@ class DeckAdd extends Component {
           onPress={this.submit}
           buttonColor={BUTTON_PRIMARY_COLOR}
         />
+        {this.state.duplicateDeckid ? (
+          <Text style={styles.error}>Duplicate Deck Title</Text>
+        ) : null}
       </View>
     );
   }
@@ -52,10 +67,16 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
   },
+  error: {
+    paddingTop: 10,
+    color: "red",
+    alignSelf: "center",
+  },
 });
 
-function mapStateToProps(state) {
-  return {};
-}
+const mapStateToProps = (state) => {
+  const deckIds = getDeckList(state);
+  return { deckIds };
+};
 
 export default connect(mapStateToProps, { addDeck })(DeckAdd);
